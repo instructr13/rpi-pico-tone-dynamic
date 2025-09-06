@@ -1,0 +1,30 @@
+.program tone_dynamic
+
+.wrap_target
+  pull noblock       ; OSR := FIFO word
+  mov y, osr         ; Y := full 32bit backup
+  out x, 16          ; X := upper 16 (H) of OSR
+  mov isr, osr       ; ISR := lower 16 (L) of OSR
+
+  set pins, 1        ; Raise pin high
+
+high_loop:
+  jmp x-- high_loop  ; Loop, decrementing X until zero
+  set pins, 0        ; Pull pin low
+  mov x, isr         ; X := lower 16 (L) of OSR
+
+low_loop:
+  jmp x-- low_loop   ; Loop, decrementing X until zero
+  mov osr, y         ; OSR := Y (full 32bit restore)
+  mov x, osr         ; X := OSR (restore)
+.wrap
+
+% c-sdk {
+static inline void tone_dynamic_program_init(PIO pio, uint sm, uint offset, uint pin) {
+  pio_gpio_init(pio, pin);
+  pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+  pio_sm_config c = tone_dynamic_program_get_default_config(offset);
+  sm_config_set_set_pins(&c, pin, 1);
+  pio_sm_init(pio, sm, offset, &c);
+}
+%}
