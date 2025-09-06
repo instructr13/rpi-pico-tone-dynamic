@@ -75,8 +75,9 @@ void setup() {
 
   Serial.println("Starting Speaker at 440Hz, 50% volume");
 
-  speaker.setWaveform(SAW_WAVEFORM);
-  speaker.play(440, 50);
+  speaker.set_waveform(SAW_WAVEFORM);
+  speaker.set_frequency(440);
+  speaker.play();
 }
 
 void loop() {
@@ -85,7 +86,7 @@ void loop() {
   Serial.println("Sweeping Frequency: 100Hz -> 5kHz at 50% volume");
 
   for (uint16_t f = 100; f <= 5000; f += 10) {
-    speaker.setFrequency(f);
+    speaker.set_frequency(f);
     Serial.printf("\rFrequency: %04d Hz", f);
 
     delay(15);
@@ -98,7 +99,7 @@ void loop() {
   Serial.println("Sweeping Volume: 0% -> 100% at 440Hz");
 
   for (float v = 0; v <= 1; v += 0.01f) {
-    speaker.setVolume(v);
+    speaker.set_volume(v);
     Serial.printf("\rVolume: %03d %%", static_cast<int>(v * 100));
 
     delay(30);
