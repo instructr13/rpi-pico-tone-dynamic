@@ -54,4 +54,6 @@ private:
   void refresh_lut_period();
 
   void repeating_timer_cb(repeating_timer *t);
+
+  void add_stop_alarm(uint32_t duration);
 };
