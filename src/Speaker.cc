@@ -27,8 +27,15 @@ float calculate_duty_scale_for_volume_basic(float volume) {
 
 } // namespace
 
-Speaker::Speaker(const uint16_t pin, const float freq, const float volume)
+Speaker::Speaker(const uint16_t pin, const bool use_core1, const float freq,
+                 const float volume)
     : pin(pin), audible_freq(freq) {
+  if (use_core1) {
+    alarm_pool = alarm_pool_create(1, 4);
+  } else {
+    alarm_pool = alarm_pool_get_default();
+  }
+
   refresh_lut_period();
   set_volume(volume);
 }
@@ -72,8 +79,8 @@ void Speaker::play(const uint32_t duration) {
 
   is_playing = true;
 
-  add_repeating_timer_us(
-      -static_cast<int64_t>(lut_period_us),
+  alarm_pool_add_repeating_timer_us(
+      alarm_pool, -static_cast<int64_t>(lut_period_us),
       [](repeating_timer *t) {
         static_cast<Speaker *>(t->user_data)->repeating_timer_cb(t);
 
@@ -82,9 +89,9 @@ void Speaker::play(const uint32_t duration) {
       this, &timer);
 
   if (duration > 0) {
-    alarm_id = add_alarm_in_ms(
-        duration,
-        [](alarm_id_t id, void *user_data) {
+    alarm_id = alarm_pool_add_alarm_in_ms(
+        alarm_pool, duration,
+        [](const alarm_id_t id, void *user_data) {
           (void)id;
 
           static_cast<Speaker *>(user_data)->stop();
@@ -104,7 +111,7 @@ void Speaker::stop() {
   cancel_repeating_timer(&timer);
 
   if (alarm_id) {
-    cancel_alarm(alarm_id);
+    alarm_pool_cancel_alarm(alarm_pool, alarm_id);
 
     alarm_id = 0;
   }
