@@ -44,16 +44,14 @@ private:
   uint32_t lut_period_us = 0;
 
   bool is_playing = false;
+  uint32_t playback_end_ms = 0;
   bool freq_changed = false;
   uint16_t waveform_index = 0;
 
   alarm_pool_t *alarm_pool;
   repeating_timer timer{};
-  alarm_id_t alarm_id = 0;
 
   void refresh_lut_period();
 
   void repeating_timer_cb(repeating_timer *t);
-
-  void add_stop_alarm(uint32_t duration);
 };
