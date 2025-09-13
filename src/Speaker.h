@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Waveform.h"
+#include "ToneDynamic/Waveform.h"
 
 #include <pico/time.h>
 
