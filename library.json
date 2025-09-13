@@ -1,0 +1,7 @@
+{
+  "name": "ToneDynamic",
+  "version": "0.0.0",
+  "build": {
+    "srcFilter": "+<*> -<main.cc>"
+  }
+}
