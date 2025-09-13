@@ -17,7 +17,7 @@ void wait_for_serial() {
   digitalWrite(LED_BUILTIN, LOW);
 }
 
-Speaker sp{PIN_SPEAKER};
+tone_dynamic::Speaker sp{PIN_SPEAKER};
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -32,7 +32,7 @@ void setup() {
 
   Serial.println("Starting tone at 440Hz, 100% vol");
 
-  sp.set_waveform(SAW_WAVEFORM);
+  sp.set_waveform(tone_dynamic::SAW_WAVEFORM);
   sp.set_frequency(110);
   sp.set_volume(1.0f);
   sp.play();
