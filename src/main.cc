@@ -1,4 +1,4 @@
-#include "Speaker.h"
+#include "../include/ToneDynamic/Speaker.h"
 
 #include <Arduino.h>
 

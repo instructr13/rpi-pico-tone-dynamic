@@ -1,4 +1,4 @@
-#include "Speaker.h"
+#include "ToneDynamic/Speaker.h"
 
 #include "ToneDynamic.h"
 
@@ -26,6 +26,8 @@ float calculate_duty_scale_for_volume_basic(float volume) {
 }
 
 } // namespace
+
+using namespace tone_dynamic;
 
 Speaker::Speaker(const uint16_t pin, const bool use_core1, const float freq,
                  const float volume)

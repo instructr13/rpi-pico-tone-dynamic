@@ -7,6 +7,8 @@
 
 #include <pico/rand.h>
 
+namespace tone_dynamic {
+
 class Waveform {
 public:
   using value_type = std::uint8_t;
@@ -62,7 +64,7 @@ const DataWaveform SQUARE_WAVEFORM{
     std::array<Waveform::value_type, 2>{{255, 0}}};
 
 const DataWaveform SQUARE_25_WAVEFORM{
-  std::array<Waveform::value_type, 4>{{255, 0, 0, 0}}};
+    std::array<Waveform::value_type, 4>{{255, 0, 0, 0}}};
 
 const DataWaveform SQUARE_12_WAVEFORM{
     std::array<Waveform::value_type, 8>{{255, 0, 0, 0, 0, 0, 0, 0}}};
@@ -80,3 +82,5 @@ const DataWaveform SINE_WAVEFORM{std::array<Waveform::value_type, 16>{
     {128, 176, 218, 245, 255, 245, 218, 176, 128, 79, 37, 10, 0, 10, 37, 79}}};
 
 const NoiseWaveform NOISE_WAVEFORM{};
+
+} // namespace tone_dynamic

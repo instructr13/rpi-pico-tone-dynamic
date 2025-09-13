@@ -1,12 +1,15 @@
 #pragma once
 
-#include "ToneDynamic/Waveform.h"
+#include "Waveform.h"
 
 #include <pico/time.h>
 
+namespace tone_dynamic {
+
 class Speaker {
 public:
-  explicit Speaker(uint16_t pin, bool use_core1 = false, float freq = 440, float volume = 1);
+  explicit Speaker(uint16_t pin, bool use_core1 = false, float freq = 440,
+                   float volume = 1);
 
   Speaker(const Speaker &) = delete;
   Speaker &operator=(const Speaker &) = delete;
@@ -55,3 +58,5 @@ private:
 
   void repeating_timer_cb(repeating_timer *t);
 };
+
+} // namespace tone_dynamic
